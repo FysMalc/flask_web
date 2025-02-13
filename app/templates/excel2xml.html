@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block nav_title %}Excel 2 XML{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow-sm rounded-lg p-6">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">Excel to XML</h1>
+
+        <div class="space-y-6">
+            <!-- File Upload Section -->
+            <div class="bg-gray-50 rounded-lg p-6 border-2 border-dashed border-gray-300">
+                <form action="{{ url_for('main.convert2xml') }}"
+                      class="dropzone"
+                      id="advancedDropzone"
+                      method="post"
+                      enctype="multipart/form-data">
+                    <div class="dz-message needsclick">
+                        <div class="text-lg font-medium text-gray-900 mb-2">
+                            Drop Excel files here or click to upload
+                        </div>
+                        <p class="text-sm text-gray-500">
+                            Supported file types: .xlsx, .xls
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Conversion Options -->
+            <div class="bg-gray-50 rounded-lg p-6 border border-gray-300">
+                <label for="conversion-type" class="block text-sm font-medium text-gray-700">Select Conversion Type:</label>
+                <select id="conversion-type" class="block w-full mt-2 p-2 border rounded">
+                    <option value="" disabled selected>Choose a conversion type</option>
+                    <option value="Discharge">Discharge</option>
+                    <option value="Load">Load</option>
+                    <option value="CUSCAR">CUSCAR</option>
+                    <option value = "COPARN">COPARN</option>
+                </select>
+
+                <label class="block text-sm font-medium text-gray-700">Operator</label>
+                <input type="text" name="operator" class="block w-full mt-2 p-2 border rounded" placeholder="Enter operator code">
+
+                <label class="block text-sm font-medium text-gray-700">Vessel Visit ID</label>
+                <input type="text" name="vesselId" class="block w-full mt-2 p-2 border rounded" placeholder="Enter vessel visit ID">
+            </div>
+
+            <!-- Start Conversion Button -->
+            <div class="flex justify-end">
+                <button id="start-conversion"
+                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+                        type = "submit">
+                    Start Conversion
+                </button>
+            </div>
+
+            <!-- Error Display -->
+            <div id="error-message" class="hidden bg-red-50 p-4 rounded-md">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p id="error-text" class="text-sm text-red-700"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.createElement('form');
+    form.enctype = 'multipart/form-data';
+    form.method = 'post';
+
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.name = 'file';
+    fileInput.accept = '.xlsx,.xls';
+    fileInput.style.display = 'none';
+
+    const dropZone = document.querySelector('.dz-message');
+    const convertButton = document.querySelector('#start-conversion');
+    const errorMessage = document.querySelector('#error-message');
+
+    // Initially disable the button
+    convertButton.disabled = true;
+
+    // Add file input to form
+    form.appendChild(fileInput);
+    document.body.appendChild(form);
+
+    // Function to check if all fields are filled
+    function checkFields() {
+        const conversionType = document.querySelector('#conversion-type').value;
+        const operator = document.querySelector('[name="operator"]').value.trim();
+        const vesselId = document.querySelector('[name="vesselId"]').value.trim();
+        const hasFile = fileInput.files.length > 0;
+
+        // Enable button only if all fields are filled
+        convertButton.disabled = !(conversionType && operator && vesselId && hasFile);
+    }
+
+    // Add event listeners to all form fields
+    document.querySelector('#conversion-type').addEventListener('change', checkFields);
+    document.querySelector('[name="operator"]').addEventListener('input', checkFields);
+    document.querySelector('[name="vesselId"]').addEventListener('input', checkFields);
+
+    // Handle drag and drop
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('border-blue-500');
+    });
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('border-blue-500');
+    });
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('border-blue-500');
+        fileInput.files = e.dataTransfer.files;
+        updateFileName(e.dataTransfer.files[0].name);
+        checkFields();
+    });
+
+    // Handle file selection
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            updateFileName(e.target.files[0].name);
+            checkFields();
+        }
+    });
+
+    // Handle conversion
+    convertButton.addEventListener('click', async () => {
+        const formData = new FormData(form);
+        formData.append('conversionType', document.querySelector('#conversion-type').value);
+        formData.append('operator', document.querySelector('[name="operator"]').value);
+        formData.append('vesselId', document.querySelector('[name="vesselId"]').value);
+
+        try {
+            const response = await fetch('/convert2xml', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileInput.files[0].name.replace(/\.[^/.]+$/, '') + '.xml';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            } else {
+                const error = await response.json();
+                showError(error.error);
+            }
+        } catch (error) {
+            showError('An error occurred during conversion');
+        }
+    });
+
+    function updateFileName(name) {
+        dropZone.querySelector('.text-lg').textContent = `Selected file: ${name}`;
+    }
+
+    function showError(message) {
+        const errorText = document.querySelector('#error-text');
+        errorText.textContent = message;
+        errorMessage.classList.remove('hidden');
+        setTimeout(() => {
+            errorMessage.classList.add('hidden');
+        }, 5000);
+    }
+});
+</script>
+{% endblock %}

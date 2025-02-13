@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block nav_title %}BAPLIE 2 MOVINS{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow-sm rounded-lg p-6">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">Convert BAPLIE to MOVINS EDI</h1>
+        
+        <div class="space-y-6">
+            <!-- File Upload Section -->
+            <div class="bg-gray-50 rounded-lg p-6 border-2 border-dashed border-gray-300">
+                <form action="{{ url_for('main.convert2movins') }}"
+                      class="dropzone" 
+                      id="baplieDropzone"
+                      method="post" 
+                      enctype="multipart/form-data">
+                    <div class="dz-message needsclick">
+                        <div class="text-lg font-medium text-gray-900 mb-2">
+                            Drop files here or click to upload
+                        </div>
+                        <p class="text-sm text-gray-500">
+                            Supported file types: .txt, .edi
+                        </p>
+                        <div id="upload-progress" class="hidden mt-4">
+                            <div class="w-full bg-gray-200 rounded">
+                                <div id="progress-bar" class="bg-blue-600 rounded h-2 w-0 transition-all duration-150"></div>
+                            </div>
+                            <p id="progress-text" class="text-sm text-gray-600 mt-2">Processing...</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Error Display -->
+            <div id="error-message" class="hidden bg-red-50 p-4 rounded-md">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <p id="error-text" class="text-sm text-red-700"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions -->
+            <div class="bg-blue-50 rounded-lg p-6">
+                <h2 class="text-xl font-semibold text-blue-900 mb-4">How to use:</h2>
+                <ol class="list-decimal list-inside space-y-2 text-blue-900">
+                    <li>Upload your BAPLIE file using the drop zone above</li>
+                    <li>Wait for the conversion process to complete</li>
+                    <li>Download your converted files (Excel and MOVINS EDI)</li>
+                </ol>
+            </div>
+
+            <!-- File Type Information -->
+            <div class="bg-gray-50 rounded-lg p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Supported File Types</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-4 rounded shadow">
+                        <h3 class="font-medium text-gray-900">Input Files:</h3>
+                        <ul class="mt-2 text-gray-600">
+                            <li>.txt (BAPLIE format)</li>
+                            <li>.edi (BAPLIE format)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-4 rounded shadow">
+                        <h3 class="font-medium text-gray-900">Output Files:</h3>
+                        <ul class="mt-2 text-gray-600">
+                            <li>.xlsx (Excel format)</li>
+                            <li>.edi (MOVINS format)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Dropzone
+    let myDropzone = new Dropzone("#baplieDropzone", {
+        url: "{{ url_for('main.convert2movins') }}",
+        paramName: "file",
+        maxFilesize: 16, // MB
+        acceptedFiles: ".txt,.edi",
+        autoProcessQueue: true,
+        dictDefaultMessage: "Drop files here or click to upload",
+        addRemoveLinks: true,
+        createImageThumbnails: false,
+        
+        init: function() {
+            let uploadProgress = document.getElementById('upload-progress');
+            let progressBar = document.getElementById('progress-bar');
+            let progressText = document.getElementById('progress-text');
+            let errorDiv = document.getElementById('error-message');
+            let errorText = document.getElementById('error-text');
+            
+            this.on("addedfile", function(file) {
+                // Hide any previous error messages
+                errorDiv.classList.add('hidden');
+                // Show progress bar
+                uploadProgress.classList.remove('hidden');
+            });
+
+            this.on("uploadprogress", function(file, progress) {
+                progressBar.style.width = progress + "%";
+                progressText.textContent = `Processing... ${Math.round(progress)}%`;
+            });
+
+            this.on("success", function(file, response) {
+                uploadProgress.classList.add('hidden');
+                // Redirect to results page
+                window.location.href = response;
+            });
+
+            this.on("error", function(file, errorMessage) {
+                uploadProgress.classList.add('hidden');
+                errorDiv.classList.remove('hidden');
+                if (typeof errorMessage === 'object' && errorMessage.error) {
+                    errorText.textContent = errorMessage.error;
+                } else {
+                    errorText.textContent = errorMessage;
+                }
+                // Remove the file from dropzone
+                this.removeFile(file);
+            });
+
+            this.on("removedfile", function(file) {
+                // Hide error message when file is removed
+                errorDiv.classList.add('hidden');
+                uploadProgress.classList.add('hidden');
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

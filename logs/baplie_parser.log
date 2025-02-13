@@ -1,0 +1,362 @@
+2024-11-25 09:42:10,307 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 09:42:10,308 - BaplieParser - INFO - Starting to parse file: uploads\FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 09:42:10,308 - BaplieParser - INFO - Pre-scanning units from file: uploads\FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 09:42:10,341 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 09:42:14,887 - BaplieParser - ERROR - Error processing file: expected str, bytes or os.PathLike object, not NoneType
+Traceback (most recent call last):
+  File "E:\PyProject\Flask_web\app\routes.py", line 51, in convert
+    edi_file=os.path.basename(edi_file))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen ntpath>", line 270, in basename
+  File "<frozen ntpath>", line 241, in split
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+2024-11-25 10:15:54,018 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 10:15:54,019 - BaplieParser - INFO - Starting to parse file: uploads\FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 10:15:54,020 - BaplieParser - INFO - Pre-scanning units from file: uploads\FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 10:15:54,075 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 10:18:57,671 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 10:18:57,672 - BaplieParser - INFO - Starting to parse file: uploads\8e859de6-4694-4167-90ee-e26be9c870f7_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 10:18:57,673 - BaplieParser - INFO - Pre-scanning units from file: uploads\8e859de6-4694-4167-90ee-e26be9c870f7_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 10:18:57,708 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 10:19:04,043 - BaplieParser - ERROR - Error downloading file: [WinError 3] The system cannot find the path specified: 'E:\\PyProject\\Flask_web\\app\\output\\CSCL EAST CHINA SEA.edi'
+Traceback (most recent call last):
+  File "E:\PyProject\Flask_web\app\routes.py", line 92, in download
+    return send_file(
+           ^^^^^^^^^^
+  File "E:\PyProject\Flask_web\.venv\Lib\site-packages\flask\helpers.py", line 504, in send_file
+    return werkzeug.utils.send_file(  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\PyProject\Flask_web\.venv\Lib\site-packages\werkzeug\utils.py", line 428, in send_file
+    stat = os.stat(path)
+           ^^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'E:\\PyProject\\Flask_web\\app\\output\\CSCL EAST CHINA SEA.edi'
+2024-11-25 10:21:18,142 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 10:21:18,142 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\334c29ab_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 10:21:18,143 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\334c29ab_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 10:21:18,174 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 10:21:24,331 - BaplieParser - INFO - Attempting to download file: E:\PyProject\Flask_web\app\output\FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 10:22:07,531 - BaplieParser - INFO - Attempting to download file: E:\PyProject\Flask_web\app\output\FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.xlsx
+2024-11-25 10:29:08,706 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 10:29:08,706 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\8d7ea616_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 10:29:08,707 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\8d7ea616_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 10:29:08,745 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 10:29:13,179 - BaplieParser - ERROR - Error processing file: name 'url_for' is not defined
+Traceback (most recent call last):
+  File "E:\PyProject\Flask_web\app\routes.py", line 87, in convert
+    results_url = url_for('main.show_results',
+                  ^^^^^^^
+NameError: name 'url_for' is not defined
+2024-11-25 10:29:21,949 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 10:29:21,950 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\c5c10c32_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 10:29:21,950 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\c5c10c32_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 10:29:22,038 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 10:29:25,977 - BaplieParser - ERROR - Error processing file: name 'url_for' is not defined
+Traceback (most recent call last):
+  File "E:\PyProject\Flask_web\app\routes.py", line 87, in convert
+    results_url = url_for('main.show_results',
+                  ^^^^^^^
+NameError: name 'url_for' is not defined
+2024-11-25 10:30:46,064 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 10:30:46,064 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\6b30486f_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 10:30:46,065 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\6b30486f_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 10:30:46,097 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 10:31:15,871 - BaplieParser - INFO - Attempting to download file: E:\PyProject\Flask_web\app\output\FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_6b30486f.edi
+2024-11-25 10:45:42,219 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 10:45:42,220 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\2776b74e_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 10:45:42,220 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\2776b74e_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 10:45:42,255 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 11:13:04,285 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 11:13:04,285 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\149d259c_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 11:13:04,286 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\149d259c_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 11:13:04,324 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 11:13:14,195 - BaplieParser - INFO - Attempting to download file: E:\PyProject\Flask_web\app\output\FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab_149d259c.edi
+2024-11-25 13:39:31,999 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 13:39:32,000 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\01cf52c7_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 13:39:32,001 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\01cf52c7_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 13:39:32,038 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 13:41:54,541 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 13:41:54,542 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\b87f2284_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 13:41:54,542 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\b87f2284_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 13:41:54,584 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 13:42:02,769 - BaplieParser - INFO - Attempting to download file: E:\PyProject\Flask_web\app\output\FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab_b87f2284.edi
+2024-11-25 13:45:19,705 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 13:45:19,705 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\93c46f3b_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 13:45:19,706 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\93c46f3b_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 13:45:19,739 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 13:45:24,604 - BaplieParser - INFO - Attempting to download file: E:\PyProject\Flask_web\app\output\FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_93c46f3b.xlsx
+2024-11-25 13:58:06,640 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 13:58:06,641 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\b7643b85_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 13:58:06,642 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\b7643b85_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 13:58:06,747 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 14:04:44,173 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 14:04:44,174 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\b515ccc9_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 14:04:44,175 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\b515ccc9_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 14:04:44,215 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 14:58:20,617 - BaplieParser - ERROR - Error converting file: None
+Traceback (most recent call last):
+  File "E:\PyProject\Flask_web\app\routes.py", line 162, in convert2xml
+    generate_edi_from_discharge(str(input_file), str(output_file), operator, vessel_id)
+  File "E:\PyProject\Flask_web\app\utils\CSV2DischListXML.py", line 35, in generate_edi_from_discharge
+    seq = int(row[find_key(row, 'SEQ')])
+              ~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: None
+2024-11-25 15:11:04,644 - BaplieParser - ERROR - Error cleaning up files: [WinError 32] The process cannot access the file because it is being used by another process: 'E:\\PyProject\\Flask_web\\app\\output\\sample_dispatch_20241125_151104.xml'
+2024-11-25 15:11:33,605 - BaplieParser - ERROR - Error cleaning up files: [WinError 32] The process cannot access the file because it is being used by another process: 'E:\\PyProject\\Flask_web\\app\\output\\input_20241125_151133.xml'
+2024-11-25 15:12:01,685 - BaplieParser - ERROR - Error cleaning up files: [WinError 32] The process cannot access the file because it is being used by another process: 'E:\\PyProject\\Flask_web\\app\\output\\CUSCAR_MANIFEST_SAMPLE_20241125_151201.xml'
+2024-11-25 16:12:10,616 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 16:12:10,618 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\2c023d4d_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 16:12:10,619 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\2c023d4d_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 16:12:10,662 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 16:12:19,262 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 16:12:19,263 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\aad261c7_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 16:12:19,263 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\aad261c7_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH_334c29ab.edi
+2024-11-25 16:12:19,302 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-11-25 16:12:47,291 - BaplieParser - INFO - BaplieParser initialized
+2024-11-25 16:12:47,305 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\8a25be40_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 16:12:47,306 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\8a25be40_FINAL_DEP_CSCL_YELLOW_SEA_059E_VNHPH.edi
+2024-11-25 16:12:47,355 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-12-09 16:43:47,280 - BaplieParser - INFO - BaplieParser initialized
+2024-12-09 16:43:47,280 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\8551e406_3RD_BAPLIE_SMDG22_450S_VNHPH_EP0.edi
+2024-12-09 16:43:47,281 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\8551e406_3RD_BAPLIE_SMDG22_450S_VNHPH_EP0.edi
+2024-12-09 16:43:47,285 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-12-09 16:43:51,256 - BaplieParser - ERROR - File not found: E:\PyProject\Flask_web\app\output\3RD_BAPLIE_SMDG22_450S_VNHPH_EP0_8551e406.edi
+2024-12-09 16:44:11,200 - BaplieParser - ERROR - File not found: E:\PyProject\Flask_web\app\output\3RD_BAPLIE_SMDG22_450S_VNHPH_EP0_8551e406.edi
+2024-12-09 16:45:07,925 - BaplieParser - INFO - BaplieParser initialized
+2024-12-09 16:45:07,925 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\a77ddef6_3RD_BAPLIE_SMDG22_450S_VNHPH_EP0.edi
+2024-12-09 16:45:07,925 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\a77ddef6_3RD_BAPLIE_SMDG22_450S_VNHPH_EP0.edi
+2024-12-09 16:45:07,929 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-12-09 16:45:10,525 - BaplieParser - ERROR - File not found: E:\PyProject\Flask_web\app\output\3RD_BAPLIE_SMDG22_450S_VNHPH_EP0_a77ddef6.edi
+2024-12-09 16:45:13,469 - BaplieParser - ERROR - File not found: E:\PyProject\Flask_web\app\output\3RD_BAPLIE_SMDG22_450S_VNHPH_EP0_a77ddef6.xlsx
+2024-12-10 14:27:05,913 - BaplieParser - INFO - BaplieParser initialized
+2024-12-10 14:27:05,914 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\29bcb8ef_3RD_BAPLIE_SMDG22_450S_VNHPH_EP0.edi
+2024-12-10 14:27:05,915 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\29bcb8ef_3RD_BAPLIE_SMDG22_450S_VNHPH_EP0.edi
+2024-12-10 14:27:05,919 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-12-10 14:27:17,055 - BaplieParser - ERROR - File not found: E:\PyProject\Flask_web\app\output\3RD_BAPLIE_SMDG22_450S_VNHPH_EP0_29bcb8ef.edi
+2024-12-10 14:34:23,379 - BaplieParser - INFO - BaplieParser initialized
+2024-12-10 14:34:23,380 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\7fa7dbff_3RD_BAPLIE_SMDG22_450S_VNHPH_EP0.edi
+2024-12-10 14:34:23,380 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\7fa7dbff_3RD_BAPLIE_SMDG22_450S_VNHPH_EP0.edi
+2024-12-10 14:34:23,386 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-12-10 14:34:25,945 - BaplieParser - INFO - Attempting to download file: E:\PyProject\Flask_web\app\output\3RD_BAPLIE_SMDG22_450S_VNHPH_EP0_7fa7dbff.edi
+2024-12-25 10:01:54,609 - BaplieParser - INFO - BaplieParser initialized
+2024-12-25 10:01:54,614 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\266ee47a_EP0_452S_VNHPH-REV.edi
+2024-12-25 10:01:54,615 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\266ee47a_EP0_452S_VNHPH-REV.edi
+2024-12-25 10:01:54,619 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-12-25 10:01:58,739 - BaplieParser - INFO - Attempting to download file: E:\PyProject\Flask_web\app\output\EP0_452S_VNHPH-REV_266ee47a.edi
+2024-12-25 10:17:48,797 - BaplieParser - INFO - BaplieParser initialized
+2024-12-25 10:17:48,798 - BaplieParser - INFO - Starting to parse file: E:\PyProject\Flask_web\app\uploads\8f55436c_EP0_452S_VNHPH-REV.edi
+2024-12-25 10:17:48,798 - BaplieParser - INFO - Pre-scanning units from file: E:\PyProject\Flask_web\app\uploads\8f55436c_EP0_452S_VNHPH-REV.edi
+2024-12-25 10:17:48,801 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': '', 'temp': 'CEL'}
+2024-12-25 10:17:54,653 - BaplieParser - INFO - Attempting to download file: E:\PyProject\Flask_web\app\output\EP0_452S_VNHPH-REV_8f55436c.edi
+2025-02-06 02:38:15,981 - BaplieParser - INFO - BaplieParser initialized
+2025-02-06 02:38:15,981 - BaplieParser - INFO - Starting to parse file: D:\PyProject\PyProject\Flask_web\app\uploads\1b7f20dc_BAPLIE_SMDG22_506S_VNHP1_69C.edi
+2025-02-06 02:38:15,982 - BaplieParser - INFO - Pre-scanning units from file: D:\PyProject\PyProject\Flask_web\app\uploads\1b7f20dc_BAPLIE_SMDG22_506S_VNHP1_69C.edi
+2025-02-06 02:38:15,986 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': 'CMT', 'temp': 'CEL'}
+2025-02-06 02:38:16,949 - BaplieParser - ERROR - Error processing file: Cannot save file into a non-existent directory: 'E:\PyProject\Edi_extract\output'
+Traceback (most recent call last):
+  File "D:\PyProject\PyProject\Flask_web\app\routes.py", line 88, in convert2movins
+    edi_path = generator.generate()
+  File "D:\PyProject\PyProject\Flask_web\app\utils\movins_generator.py", line 181, in generate
+    csv_path = self.convert_containers_to_csv()
+  File "D:\PyProject\PyProject\Flask_web\app\utils\movins_generator.py", line 171, in convert_containers_to_csv
+    containers_df.to_csv(csv_path, index=False)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\util\_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\generic.py", line 3967, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        path_or_buf,
+        ^^^^^^^^^^^^
+    ...<14 lines>...
+        storage_options=storage_options,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\formats\format.py", line 1014, in to_csv
+    csv_formatter.save()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ~~~~~~~~~~^
+        self.filepath_or_buffer,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        storage_options=self.storage_options,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as handles:
+    ^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\common.py", line 749, in get_handle
+    check_parent_directory(str(handle))
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\common.py", line 616, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\PyProject\Edi_extract\output'
+2025-02-06 02:40:15,894 - BaplieParser - INFO - BaplieParser initialized
+2025-02-06 02:40:15,895 - BaplieParser - INFO - Starting to parse file: D:\PyProject\PyProject\Flask_web\app\uploads\ab72aaff_BAPLIE_SMDG22_506S_VNHP1_69C.edi
+2025-02-06 02:40:15,895 - BaplieParser - INFO - Pre-scanning units from file: D:\PyProject\PyProject\Flask_web\app\uploads\ab72aaff_BAPLIE_SMDG22_506S_VNHP1_69C.edi
+2025-02-06 02:40:15,898 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': 'CMT', 'temp': 'CEL'}
+2025-02-06 02:40:16,395 - BaplieParser - ERROR - Error processing file: Cannot save file into a non-existent directory: 'E:\PyProject\Edi_extract\output'
+Traceback (most recent call last):
+  File "D:\PyProject\PyProject\Flask_web\app\routes.py", line 88, in convert2movins
+    edi_path = generator.generate()
+  File "D:\PyProject\PyProject\Flask_web\app\utils\movins_generator.py", line 181, in generate
+    csv_path = self.convert_containers_to_csv()
+  File "D:\PyProject\PyProject\Flask_web\app\utils\movins_generator.py", line 171, in convert_containers_to_csv
+    containers_df.to_csv(csv_path, index=False)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\util\_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\generic.py", line 3967, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        path_or_buf,
+        ^^^^^^^^^^^^
+    ...<14 lines>...
+        storage_options=storage_options,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\formats\format.py", line 1014, in to_csv
+    csv_formatter.save()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ~~~~~~~~~~^
+        self.filepath_or_buffer,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        storage_options=self.storage_options,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as handles:
+    ^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\common.py", line 749, in get_handle
+    check_parent_directory(str(handle))
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\common.py", line 616, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'E:\PyProject\Edi_extract\output'
+2025-02-06 02:43:45,311 - BaplieParser - INFO - BaplieParser initialized
+2025-02-06 02:43:45,311 - BaplieParser - INFO - Starting to parse file: D:\PyProject\PyProject\Flask_web\app\uploads\a655673e_BAPLIE_SMDG22_506S_VNHP1_69C.edi
+2025-02-06 02:43:45,311 - BaplieParser - INFO - Pre-scanning units from file: D:\PyProject\PyProject\Flask_web\app\uploads\a655673e_BAPLIE_SMDG22_506S_VNHP1_69C.edi
+2025-02-06 02:43:45,315 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': 'CMT', 'temp': 'CEL'}
+2025-02-06 02:43:45,815 - BaplieParser - ERROR - Error processing file: Cannot save file into a non-existent directory: 'D:\PyProject\Edi_extract\output'
+Traceback (most recent call last):
+  File "D:\PyProject\PyProject\Flask_web\app\routes.py", line 88, in convert2movins
+    edi_path = generator.generate()
+  File "D:\PyProject\PyProject\Flask_web\app\utils\movins_generator.py", line 181, in generate
+    csv_path = self.convert_containers_to_csv()
+  File "D:\PyProject\PyProject\Flask_web\app\utils\movins_generator.py", line 171, in convert_containers_to_csv
+    containers_df.to_csv(csv_path, index=False)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\util\_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\generic.py", line 3967, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        path_or_buf,
+        ^^^^^^^^^^^^
+    ...<14 lines>...
+        storage_options=storage_options,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\formats\format.py", line 1014, in to_csv
+    csv_formatter.save()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\formats\csvs.py", line 251, in save
+    with get_handle(
+         ~~~~~~~~~~^
+        self.filepath_or_buffer,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        storage_options=self.storage_options,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ) as handles:
+    ^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\common.py", line 749, in get_handle
+    check_parent_directory(str(handle))
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\nguyengiangnam.HHIT\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\io\common.py", line 616, in check_parent_directory
+    raise OSError(rf"Cannot save file into a non-existent directory: '{parent}'")
+OSError: Cannot save file into a non-existent directory: 'D:\PyProject\Edi_extract\output'
+2025-02-06 02:44:20,021 - BaplieParser - INFO - BaplieParser initialized
+2025-02-06 02:44:20,021 - BaplieParser - INFO - Starting to parse file: D:\PyProject\PyProject\Flask_web\app\uploads\4d3fa480_BAPLIE_SMDG22_506S_VNHP1_69C.edi
+2025-02-06 02:44:20,021 - BaplieParser - INFO - Pre-scanning units from file: D:\PyProject\PyProject\Flask_web\app\uploads\4d3fa480_BAPLIE_SMDG22_506S_VNHP1_69C.edi
+2025-02-06 02:44:20,024 - BaplieParser - INFO - Units found: {'weight': 'KGM', 'oog': 'CMT', 'temp': 'CEL'}
+2025-02-06 02:44:22,359 - BaplieParser - INFO - Attempting to download file: D:\PyProject\PyProject\Flask_web\app\output\BAPLIE_SMDG22_506S_VNHP1_69C_4d3fa480.edi
+2025-02-13 11:15:39,787 - BaplieParser - ERROR - Error converting file: None
+Traceback (most recent call last):
+  File "D:\PyProject\Flask_web\app\routes.py", line 162, in convert2xml
+    generate_edi_from_discharge(str(input_file), str(output_file), operator, vessel_id)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\PyProject\Flask_web\app\utils\CSV2DischListXML.py", line 35, in generate_edi_from_discharge
+    seq = int(row[find_key(row, 'SEQ')])
+              ~~~^^^^^^^^^^^^^^^^^^^^^^
+KeyError: None
+2025-02-13 11:36:52,887 - BaplieParser - ERROR - Error converting file: cannot convert float NaN to integer
+Traceback (most recent call last):
+  File "D:\PyProject\Flask_web\app\routes.py", line 162, in convert2xml
+    generate_edi_from_discharge(str(input_file), str(output_file), operator, vessel_id)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\PyProject\Flask_web\app\utils\CSV2DischListXML.py", line 36, in generate_edi_from_discharge
+    seq = int(row[find_key(row, 'SEQ')])
+ValueError: cannot convert float NaN to integer
+2025-02-13 11:37:52,455 - BaplieParser - ERROR - Error converting file: name 'rw' is not defined
+Traceback (most recent call last):
+  File "D:\PyProject\Flask_web\app\routes.py", line 162, in convert2xml
+    generate_edi_from_discharge(str(input_file), str(output_file), operator, vessel_id)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\PyProject\Flask_web\app\utils\CSV2DischListXML.py", line 139, in generate_edi_from_discharge
+    ventilation_key = find_key(rw, 'VENTILATION (VALUE)')
+                               ^^
+NameError: name 'rw' is not defined
+2025-02-13 11:38:00,635 - BaplieParser - ERROR - Error converting file: name 'rw' is not defined
+Traceback (most recent call last):
+  File "D:\PyProject\Flask_web\app\routes.py", line 162, in convert2xml
+    generate_edi_from_discharge(str(input_file), str(output_file), operator, vessel_id)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\PyProject\Flask_web\app\utils\CSV2DischListXML.py", line 139, in generate_edi_from_discharge
+    ventilation_key = find_key(rw, 'VENTILATION (VALUE)')
+                               ^^
+NameError: name 'rw' is not defined
+2025-02-13 11:38:29,014 - BaplieParser - ERROR - Error converting file: name 'rw' is not defined
+Traceback (most recent call last):
+  File "D:\PyProject\Flask_web\app\routes.py", line 162, in convert2xml
+    generate_edi_from_discharge(str(input_file), str(output_file), operator, vessel_id)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\PyProject\Flask_web\app\utils\CSV2DischListXML.py", line 139, in generate_edi_from_discharge
+    ventilation_key = find_key(row, 'VENTILATION (VALUE)')
+                               ^^
+NameError: name 'rw' is not defined
+2025-02-13 15:57:30,401 - BaplieParser - ERROR - Error converting file: cannot convert float NaN to integer
+Traceback (most recent call last):
+  File "D:\PyProject\Flask_web\app\routes.py", line 164, in convert2xml
+    generate_edi_from_load(str(input_file), str(output_file), operator, vessel_id)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\PyProject\Flask_web\app\utils\CSV2LoadListXML.py", line 36, in generate_edi_from_load
+    seq = int(row[find_key(row, 'SEQ')])
+ValueError: cannot convert float NaN to integer
+2025-02-13 15:58:11,821 - BaplieParser - ERROR - Error converting file: cannot convert float NaN to integer
+Traceback (most recent call last):
+  File "D:\PyProject\Flask_web\app\routes.py", line 164, in convert2xml
+    generate_edi_from_load(str(input_file), str(output_file), operator, vessel_id)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\PyProject\Flask_web\app\utils\CSV2LoadListXML.py", line 36, in generate_edi_from_load
+    seq = int(row[find_key(row, 'SEQ')])
+ValueError: cannot convert float NaN to integer
+2025-02-13 15:58:16,302 - BaplieParser - ERROR - Error converting file: cannot convert float NaN to integer
+Traceback (most recent call last):
+  File "D:\PyProject\Flask_web\app\routes.py", line 164, in convert2xml
+    generate_edi_from_load(str(input_file), str(output_file), operator, vessel_id)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\PyProject\Flask_web\app\utils\CSV2LoadListXML.py", line 36, in generate_edi_from_load
+    seq = int(row[find_key(row, 'SEQ')])
+ValueError: cannot convert float NaN to integer
+2025-02-13 15:58:25,550 - BaplieParser - ERROR - Error converting file: cannot convert float NaN to integer
+Traceback (most recent call last):
+  File "D:\PyProject\Flask_web\app\routes.py", line 164, in convert2xml
+    generate_edi_from_load(str(input_file), str(output_file), operator, vessel_id)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\PyProject\Flask_web\app\utils\CSV2LoadListXML.py", line 36, in generate_edi_from_load
+    seq = int(row[find_key(row, 'SEQ')])
+ValueError: cannot convert float NaN to integer
