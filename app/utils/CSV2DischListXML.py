@@ -10,7 +10,7 @@ def format_value(value):
         return ''
     if isinstance(value, (int, float)):
         # If it's a whole number, convert to int
-        if isinstance(value, int):
+        if value.is_integer():
             return str(int(value))
         # If it's a float, keep it as float
         return str(value)
@@ -73,7 +73,7 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
         ET.SubElement(dischargeListTransaction, "edi:category").text = "IMPRT"
 
         # Create the FreightKind element
-        freight_kind = "FCL" if row[find_key(row, 'FREIGHT KIND (F/E)')] == "F" else "MTY"
+        freight_kind = "FCL" if row[find_key(row, 'FREIGHT KIND (F/E)')] == "F"  or row[find_key(row, 'FREIGHT KIND (F/E)')] == "FCL" else "MTY"
         ET.SubElement(dischargeListTransaction, "edi:freightKind").text = freight_kind
 
         # Create the ContainerID element
@@ -83,8 +83,9 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
         ET.SubElement(dischargeListTransaction, "edi:containerType").text = format_value(row[find_key(row, 'SIZE')])
 
         # Create the Cell position element
-        ET.SubElement(dischargeListTransaction, "edi:stowageCellPosition").text = format_value(
-            row[find_key(row, 'CELL')])
+        if pd.notna(row[find_key(row, 'CELL')]):
+            ET.SubElement(dischargeListTransaction, "edi:stowageCellPosition").text = format_value(
+                row[find_key(row, 'CELL')])
 
         # Create the ContainerOperator element
 
@@ -94,10 +95,13 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
 
         # Create the ImportRouting element
         import_routing = ET.SubElement(dischargeListTransaction, "edi:importRouting")
-        ET.SubElement(import_routing, "edi:loadPort",
-                      attrib={"edi:portId": format_value(row[find_key(row, 'POL (6 LETTERS)')])})
-        ET.SubElement(import_routing, "edi:dischargePort1",
-                      attrib={"edi:portId": format_value(row[find_key(row, 'POD (6 LETTERS)')])})
+        if pd.notna(row[find_key(row, 'POL (6 LETTERS)')]):
+            ET.SubElement(import_routing, "edi:loadPort",
+                          attrib={"edi:portId": format_value(row[find_key(row, 'POL (6 LETTERS)')])})
+
+        if pd.notna(row[find_key(row, 'POD (6 LETTERS)')]):
+            ET.SubElement(import_routing, "edi:dischargePort1",
+                          attrib={"edi:portId": format_value(row[find_key(row, 'POD (6 LETTERS)')])})
 
         # Check if FPOD not null then add in ImportRouting
         fpod_key = find_key(row, 'FPOD (IF ANY)')
@@ -106,14 +110,16 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
                           attrib={"edi:portId": format_value(row[fpod_key])})
 
         # Create the Weight element
-        ET.SubElement(dischargeListTransaction, "edi:grossWeight",
-                      attrib={"edi:wtUnit": "KG",
-                              "edi:wtValue": format_value(row[find_key(row, 'Weight (kg)')])})
+        if pd.notna(row[find_key(row, 'Weight (kg)')]):
+            ET.SubElement(dischargeListTransaction, "edi:grossWeight",
+                          attrib={"edi:wtUnit": "KG",
+                                  "edi:wtValue": format_value(row[find_key(row, 'Weight (kg)')])})
 
         # Create the VGM element
-        ET.SubElement(dischargeListTransaction, "edi:verifiedGrossMass",
-                      attrib={"edi:verifiedGrossWt": format_value(row[find_key(row, 'VGM(kg)')]),
-                              "edi:verifiedGrossWtUnit": "KG"})
+        if pd.notna(row[find_key(row, 'VGM(kg)')]):
+            ET.SubElement(dischargeListTransaction, "edi:verifiedGrossMass",
+                          attrib={"edi:verifiedGrossWt": format_value(row[find_key(row, 'VGM(kg)')]),
+                                  "edi:verifiedGrossWtUnit": "KG"})
 
         # Create the OOG element
         if row[find_key(row, 'OOG')] == "Y":
@@ -158,7 +164,7 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
                 "edi:commodityDescription": format_value(row[commo_key])
             })
             # ET.SubElement(flex_field, "edi:commodityDescription").text = format_value(row[commo_key])
-        #
+
         # Create the Ventilation element
         if find_key(row, 'VENTILATION (VALUE)'):
             ventilation_key = find_key(row, 'VENTILATION (VALUE)')
