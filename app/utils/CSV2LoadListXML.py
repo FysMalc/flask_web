@@ -11,7 +11,7 @@ def format_value(value):
         return ''
     if isinstance(value, (int, float)):
         # If it's a whole number, convert to int
-        if isinstance(value, int):
+        if value.is_integer():
             return str(int(value))
         # If it's a float, keep it as float
         return str(value)
@@ -86,10 +86,13 @@ def generate_edi_from_load(input_file, output_file, opr, VslID):
 
         # Create the ExportRouting element
         import_routing = ET.SubElement(loadListTransaction, "edi:exportRouting")
+
         ET.SubElement(import_routing, "edi:loadPort",
                       attrib={"edi:portId": "VNHHP"})
-        ET.SubElement(import_routing, "edi:dischargePort1",
-                      attrib={"edi:portId": format_value(row[find_key(row, 'POD (6 LETTERS)')])})
+
+        if pd.notna(row[find_key(row, 'POD (6 LETTERS)')]):
+            ET.SubElement(import_routing, "edi:dischargePort1",
+                          attrib={"edi:portId": format_value(row[find_key(row, 'POD (6 LETTERS)')])})
 
         fpod_key = find_key(row, 'FPOD (IF ANY)')
         if pd.notna(row[fpod_key]):
@@ -97,17 +100,19 @@ def generate_edi_from_load(input_file, output_file, opr, VslID):
                           attrib={"edi:portId": format_value(row[fpod_key])})
 
         # Create the Weight element
-        ET.SubElement(loadListTransaction, "edi:grossWeight",
-                      attrib={
-                          "edi:wtValue": format_value(row[find_key(row, 'Weight (kg)')]),
-                          "edi:wtUnit": "KG"
-                        }
-                      )
+        if pd.notna(row[find_key(row, 'Weight (kg)')]):
+            ET.SubElement(loadListTransaction, "edi:grossWeight",
+                          attrib={
+                              "edi:wtValue": format_value(row[find_key(row, 'Weight (kg)')]),
+                              "edi:wtUnit": "KG"
+                            }
+                          )
 
         # Create the VGM element
-        ET.SubElement(loadListTransaction, "edi:verifiedGrossMass",
-                      attrib={"edi:verifiedGrossWt": format_value(row[find_key(row, 'VGM(kg)')]),
-                              "edi:verifiedGrossWtUnit": "KG"})
+        if pd.notna(row[find_key(row, 'VGM(kg)')]):
+            ET.SubElement(loadListTransaction, "edi:verifiedGrossMass",
+                          attrib={"edi:verifiedGrossWt": format_value(row[find_key(row, 'VGM(kg)')]),
+                                  "edi:verifiedGrossWtUnit": "KG"})
 
         # Create the OOG element
         if row[find_key(row, 'OOG')] == "Y":
