@@ -10,7 +10,7 @@ def format_value(value):
         return ''
     if isinstance(value, (int, float)):
         # If it's a whole number, convert to int
-        if value.is_integer():
+        if isinstance(value, int):
             return str(int(value))
         # If it's a float, keep it as float
         return str(value)
