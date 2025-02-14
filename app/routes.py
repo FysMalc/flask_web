@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, send_file, current_app, jsonify, url_for, redirect
+from flask import Blueprint, render_template, request, send_file, current_app, jsonify, url_for, redirect, send_from_directory
 from werkzeug.utils import secure_filename
 import os
 from app.utils.logger import setup_logging
@@ -40,7 +40,8 @@ def ensure_directories():
 
 @main.route('/', methods=['GET'])
 def dashboard():
-    return render_template('dashboard.html')
+    # return render_template('dashboard.html')
+    return render_template('excel2xml.html')
 
 @main.route('/baplie2movins', methods=['GET'])
 def baplie2movins():
@@ -184,6 +185,18 @@ def convert2xml():
     except Exception as e:
         logger.error(f"Error processing request: {str(e)}", exc_info=True)
         return jsonify({'error': str(e)}), 500
+
+
+@main.route('/download-template/<filename>')
+def download_template(filename):
+    # Define the folder where templates are stored
+    template_folder = "static/xls_template"
+
+    try:
+        return send_from_directory(template_folder, filename, as_attachment=True)
+    except FileNotFoundError:
+        return "File not found", 404
+
 
 @main.route('/results')
 def show_results():
