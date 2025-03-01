@@ -95,13 +95,13 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
 
         # Create the ImportRouting element
         import_routing = ET.SubElement(dischargeListTransaction, "edi:importRouting")
-        if pd.notna(row[find_key(row, 'POL (6 LETTERS)')]):
+        if pd.notna(row[find_key(row, 'POL (5 LETTERS)')]):
             ET.SubElement(import_routing, "edi:loadPort",
-                          attrib={"edi:portId": format_value(row[find_key(row, 'POL (6 LETTERS)')])})
+                          attrib={"edi:portId": format_value(row[find_key(row, 'POL (5 LETTERS)')])})
 
-        if pd.notna(row[find_key(row, 'POD (6 LETTERS)')]):
+        if pd.notna(row[find_key(row, 'POD (5 LETTERS)')]):
             ET.SubElement(import_routing, "edi:dischargePort1",
-                          attrib={"edi:portId": format_value(row[find_key(row, 'POD (6 LETTERS)')])})
+                          attrib={"edi:portId": format_value(row[find_key(row, 'POD (5 LETTERS)')])})
 
         # Check if FPOD not null then add in ImportRouting
         fpod_key = find_key(row, 'FPOD (IF ANY)')

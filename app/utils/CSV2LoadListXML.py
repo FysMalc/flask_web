@@ -87,12 +87,13 @@ def generate_edi_from_load(input_file, output_file, opr, VslID):
         # Create the ExportRouting element
         import_routing = ET.SubElement(loadListTransaction, "edi:exportRouting")
 
-        ET.SubElement(import_routing, "edi:loadPort",
-                      attrib={"edi:portId": "VNHHP"})
+        if pd.notna(row[find_key(row, 'POL (5 LETTERS)')]):
+            ET.SubElement(import_routing, "edi:loadPort",
+                          attrib={"edi:portId": format_value(row[find_key(row, 'POL (5 LETTERS)')])})
 
-        if pd.notna(row[find_key(row, 'POD (6 LETTERS)')]):
+        if pd.notna(row[find_key(row, 'POD (5 LETTERS)')]):
             ET.SubElement(import_routing, "edi:dischargePort1",
-                          attrib={"edi:portId": format_value(row[find_key(row, 'POD (6 LETTERS)')])})
+                          attrib={"edi:portId": format_value(row[find_key(row, 'POD (5 LETTERS)')])})
 
         fpod_key = find_key(row, 'FPOD (IF ANY)')
         if pd.notna(row[fpod_key]):
