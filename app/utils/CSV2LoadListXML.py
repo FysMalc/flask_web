@@ -17,7 +17,6 @@ def format_value(value):
         return str(value)
     return str(value)
 
-@profile
 def generate_edi_from_load(input_file, output_file, opr, VslID):
     # Get current date and time
     now = datetime.now()
