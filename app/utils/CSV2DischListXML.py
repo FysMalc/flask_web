@@ -140,6 +140,12 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
             })
 
         # Create SealNbr1 element
+        for i in range(1, 5):
+            if find_key(row, f"SEAL{i}"):
+                seal_key = find_key(row, f"SEAL{i}")
+                if pd.notna(row[seal_key]):
+                    ET.SubElement(dischargeListTransaction, f"edi:sealNbr{i}").text = format_value(row[seal_key])
+
         if  find_key(row, 'SEAL1'):
             seal_key1 = find_key(row, 'SEAL1')
             if pd.notna(row[seal_key1]):
@@ -193,6 +199,13 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
                         "edi:attachedEquipmentNbr": format_value(row[bundle_key]),
                         "edi:attachedEquipmentType": format_value(row[find_key(row, 'SIZE')])
                     })
+
+        if find_key(row, "STOW CODE"):
+            stow_key = find_key(row, "STOW CODE")
+            if pd.notna(row[stow_key]):
+                stow_code_element = ET.SubElement(dischargeListTransaction, "edi:containerSpecialStowInstructions")
+                ET.SubElement(stow_code_element, "edi:id").text = format_value(row[stow_key])
+
 
     # Clean None values
     clean_none_values(output_root)
