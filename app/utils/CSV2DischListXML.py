@@ -146,22 +146,22 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
                 if pd.notna(row[seal_key]):
                     ET.SubElement(dischargeListTransaction, f"edi:sealNbr{i}").text = format_value(row[seal_key])
 
-        if  find_key(row, 'SEAL1'):
-            seal_key1 = find_key(row, 'SEAL1')
-            if pd.notna(row[seal_key1]):
-                ET.SubElement(dischargeListTransaction, "edi:sealNbr1").text = format_value(row[seal_key1])
-        if  find_key(row, 'SEAL2'):
-            seal_key2 = find_key(row, 'SEAL2')
-            if pd.notna(row[seal_key2]):
-                ET.SubElement(dischargeListTransaction, "edi:sealNbr2").text = format_value(row[seal_key2])
-        if  find_key(row, 'SEAL3'):
-            seal_key3 = find_key(row, 'SEAL3')
-            if pd.notna(row[seal_key3]):
-                ET.SubElement(dischargeListTransaction, "edi:sealNbr3").text = format_value(row[seal_key3])
-        if  find_key(row, 'SEAL4'):
-            seal_key4 = find_key(row, 'SEAL4')
-            if pd.notna(row[seal_key4]):
-                ET.SubElement(dischargeListTransaction, "edi:sealNbr4").text = format_value(row[seal_key4])
+        # if  find_key(row, 'SEAL1'):
+        #     seal_key1 = find_key(row, 'SEAL1')
+        #     if pd.notna(row[seal_key1]):
+        #         ET.SubElement(dischargeListTransaction, "edi:sealNbr1").text = format_value(row[seal_key1])
+        # if  find_key(row, 'SEAL2'):
+        #     seal_key2 = find_key(row, 'SEAL2')
+        #     if pd.notna(row[seal_key2]):
+        #         ET.SubElement(dischargeListTransaction, "edi:sealNbr2").text = format_value(row[seal_key2])
+        # if  find_key(row, 'SEAL3'):
+        #     seal_key3 = find_key(row, 'SEAL3')
+        #     if pd.notna(row[seal_key3]):
+        #         ET.SubElement(dischargeListTransaction, "edi:sealNbr3").text = format_value(row[seal_key3])
+        # if  find_key(row, 'SEAL4'):
+        #     seal_key4 = find_key(row, 'SEAL4')
+        #     if pd.notna(row[seal_key4]):
+        #         ET.SubElement(dischargeListTransaction, "edi:sealNbr4").text = format_value(row[seal_key4])
 
         # Create the Commodity element
         commo_key = find_key(row, 'COMMODITY DETAIL')
@@ -206,7 +206,6 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
                 stow_code_element = ET.SubElement(dischargeListTransaction, "edi:containerSpecialStowInstructions")
                 ET.SubElement(stow_code_element, "edi:id").text = format_value(row[stow_key])
 
-
     # Clean None values
     clean_none_values(output_root)
 
@@ -228,7 +227,6 @@ def clean_none_values(element):
         if child.tail is None:
             child.tail = ''
         clean_none_values(child)
-
 
 if __name__ == "__main__":
     input_file = input("Input Excel file: ")  # Changed prompt to Excel
