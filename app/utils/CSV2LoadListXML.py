@@ -26,7 +26,7 @@ def generate_edi_from_load(input_file, output_file, opr, VslID):
     output_root = ET.Element("edi:loadlistTransactions", attrib={"xmlns:edi": "http://www.navis.com/argo"})
 
     # Read the input Excel file - convert_float=False to preserve number formatting
-    df = pd.read_excel(input_file, engine='openpyxl')
+    df = pd.read_excel(input_file, engine='openpyxl', dtype=str)
 
     # Convert DataFrame to dictionary format similar to CSV reader
     for index, row in df.iterrows():
@@ -82,7 +82,7 @@ def generate_edi_from_load(input_file, output_file, opr, VslID):
         # Create the orderNbr element
         booking_key = find_key(row, 'Booking')
         if pd.notna(row[booking_key]):
-            ET.SubElement(loadListTransaction, 'edi:orderNbr').text = str(row[booking_key])
+            ET.SubElement(loadListTransaction, 'edi:orderNbr').text = row[booking_key].astype
 
         # Create the ExportRouting element
         import_routing = ET.SubElement(loadListTransaction, "edi:exportRouting")

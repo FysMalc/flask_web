@@ -25,7 +25,7 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
     output_root = ET.Element("edi:dischlistTransactions", attrib={"xmlns:edi": "http://www.navis.com/argo"})
 
     # Read the input Excel file
-    df = pd.read_excel(input_file, engine='openpyxl')
+    df = pd.read_excel(input_file, engine='openpyxl', dtype=str)
 
     # Convert DataFrame to dictionary format
     for index, row in df.iterrows():
