@@ -58,7 +58,7 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
         bl_key = find_key(row, 'BL')
         if pd.notna(row[bl_key]):
             ET.SubElement(dischargeListTransaction, 'edi:ediBillOfLading',
-                                         attrib={'edi:blNbr': format_value(row[bl_key])})
+                                         attrib={'edi:blNbr': str(row[bl_key])})
 
         # Create the InboundVesselVisit element
         vsl_dict = {
@@ -146,7 +146,7 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
                 if pd.notna(row[seal_key]):
                     ET.SubElement(dischargeListTransaction, f"edi:sealNbr{i}").text = format_value(row[seal_key])
 
-        # if  find_key(row, 'SEAL1'):
+        # if  find_key(row, 'SEAL1'):s
         #     seal_key1 = find_key(row, 'SEAL1')
         #     if pd.notna(row[seal_key1]):
         #         ET.SubElement(dischargeListTransaction, "edi:sealNbr1").text = format_value(row[seal_key1])
