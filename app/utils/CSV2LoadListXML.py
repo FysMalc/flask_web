@@ -36,7 +36,6 @@ def generate_edi_from_load(input_file, output_file, opr, VslID):
         seq = int(row[find_key(row, 'SEQ')])
         format_seq = format(seq, '04d')
         sequence = date_time_str + format_seq
-
         tran_dict = {
             "edi:msgClass": "LOADLIST",
             "edi:msgTypeId": "COPRAR",
@@ -82,7 +81,7 @@ def generate_edi_from_load(input_file, output_file, opr, VslID):
         # Create the orderNbr element
         booking_key = find_key(row, 'Booking')
         if pd.notna(row[booking_key]):
-            ET.SubElement(loadListTransaction, 'edi:orderNbr').text = row[booking_key].astype
+            ET.SubElement(loadListTransaction, 'edi:orderNbr').text = row[booking_key]
 
         # Create the ExportRouting element
         import_routing = ET.SubElement(loadListTransaction, "edi:exportRouting")
