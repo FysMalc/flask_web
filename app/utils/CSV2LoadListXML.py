@@ -160,7 +160,7 @@ def generate_edi_from_load(input_file, output_file, opr, VslID):
         # Create the Dangerous Goods element
         if row[find_key(row, 'DG (Y/N)')] == "Y":
             ET.SubElement(loadListTransaction, "edi:ediHazard", attrib={
-                "edi:imdgClass": str(int(row[find_key(row, 'IMO')])),
+                "edi:imdgClass": str(row[find_key(row, 'IMO')]),
                 "edi:unNbr": str(int(row[find_key(row, 'UNNO')]))
             })
 
