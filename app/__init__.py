@@ -2,7 +2,7 @@ from flask import Flask
 from config import Config
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder="statics")
     app.config.from_object(Config)
 
     app.config['UPLOAD_FOLDER'].mkdir(parents=True, exist_ok=True)
