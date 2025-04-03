@@ -33,7 +33,7 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
         sequence = ''
         # Create the dischargeListTransaction element
         if find_key(row, 'SEQ'):
-            if format_value(row['SEQ']):
+            if format_value(row[find_key(row, 'SEQ')]):
                 seq = int(row[find_key(row, 'SEQ')])
                 format_seq = format(seq, '04d')
                 sequence = date_time_str + format_seq
