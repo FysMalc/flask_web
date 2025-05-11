@@ -97,7 +97,7 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
             ET.SubElement(dischargeListTransaction, "edi:category").text = "IMPRT"
 
             # Create the FreightKind element
-            freight_kind = "FCL" if row[key_map['FREIGHT_KIND']].strip().upper() == "F"  or row[key_map['FREIGHT_KIND']].strip().upper() == "FCL" else "MTY"
+            freight_kind = "FCL" if str(row[key_map['FREIGHT_KIND']]).strip().upper() == "F"  or str(row[key_map['FREIGHT_KIND']]).strip().upper() == "FCL" else "MTY"
             ET.SubElement(dischargeListTransaction, "edi:freightKind").text = freight_kind
 
             # Create the ContainerID element
