@@ -1,20 +1,8 @@
 import pandas as pd
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
-from .find_key import find_key
+from .utils import *
 from datetime import datetime
-
-def format_value(value):
-    """Convert numeric values to appropriate format without unnecessary decimal places"""
-    if pd.isna(value):
-        return ''
-    if isinstance(value, (int, float)):
-        # If it's a whole number, convert to int
-        if isinstance(value, int):
-            return str(int(value))
-        # If it's a float, keep it as float
-        return str(value)
-    return str(value)
 
 def generate_edi_from_discharge(input_file, output_file, opr, VslID):
     # Get current date and time
@@ -25,18 +13,54 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
     output_root = ET.Element("edi:dischlistTransactions", attrib={"xmlns:edi": "http://www.navis.com/argo"})
 
     # Read the input Excel file
-    df = pd.read_excel(input_file, engine='openpyxl', dtype=str)
+    df = pd.read_excel(input_file, engine  ='openpyxl', dtype=str)
+    first_row = df.iloc[0].to_dict() if not df.empty else {}
+    print(first_row)
+    key_map = {
+        'SEQ': find_key(first_row, 'SEQ') or raise_missing_column('SEQ'),
+        'SIZE': find_key(first_row, 'SIZE') or raise_missing_column('SIZE'),
+        'BL': find_key(first_row, 'BL') or raise_missing_column('BL'),
+        'SEAL1': find_key(first_row, 'SEAL1') or raise_missing_column('SEAL1'),
+        'SEAL2': find_key(first_row, 'SEAL2') or raise_missing_column('SEAL2'),
+        'SEAL3': find_key(first_row, 'SEAL3') or raise_missing_column('SEAL3'),
+        'SEAL4': find_key(first_row, 'SEAL4') or raise_missing_column('SEAL4'),
+        'CNTR_NO': find_key(first_row, 'CNTR_NO') or raise_missing_column('CNTR_NO'),
+        'STOW_CODE': find_key(first_row, 'STOW CODE') or raise_missing_column('STOW CODE'),
+        'CELL': find_key(first_row, 'CELL') or raise_missing_column('CELL'),
+        'WEIGHT': find_key(first_row, 'Weight (kg)') or raise_missing_column('Weight (kg)'),
+        'VGM': find_key(first_row, 'VGM(kg)') or raise_missing_column('VGM(kg)'),
+        'FREIGHT_KIND': find_key(first_row, 'FREIGHT KIND (F/E)') or raise_missing_column('FREIGHT KIND (F/E)'),
+        'OPS': find_key(first_row, 'OPS (3 LETTERS)') or raise_missing_column('OPS (3 LETTERS)'),
+        'POL': find_key(first_row, 'POL (5 LETTERS)') or raise_missing_column('POL (5 LETTERS)'),
+        'POD': find_key(first_row, 'POD (5 LETTERS)') or raise_missing_column('POD (5 LETTERS)'),
+        'FPOD': find_key(first_row, 'FPOD (IF ANY)') or raise_missing_column('FPOD (IF ANY)'),
+        'DG': find_key(first_row, 'DG (Y/N)') or raise_missing_column('DG (Y/N)'),
+        'IMO': find_key(first_row, 'IMO') or raise_missing_column('IMO'),
+        'UNNO': find_key(first_row, 'UNNO') or raise_missing_column('UNNO'),
+        'RF': find_key(first_row, 'RF (Y/N)') or raise_missing_column('RF (Y/N)'),
+        'VENT_VALUE': find_key(first_row, 'VENTILATION (VALUE)') or raise_missing_column('VENTILATION (VALUE)'),
+        'VENT_UNIT': find_key(first_row, 'VENTILATION (UNIT)') or raise_missing_column('VENTILATION (UNIT)'),
+        'TEMP': find_key(first_row, 'TEMP. (\'C)') or raise_missing_column('TEMP. (\'C)'),
+        'OOG': find_key(first_row, 'OOG') or raise_missing_column('OOG'),
+        'OVER_HEIGHT': find_key(first_row, 'OVER HEIGHT (CM)') or raise_missing_column('OVER HEIGHT (CM)'),
+        'OVER_LEFT': find_key(first_row, 'OVER LEFT (CM)') or raise_missing_column('OVER LEFT (CM)'),
+        'OVER_RIGHT': find_key(first_row, 'OVER RIGHT (CM)') or raise_missing_column('OVER RIGHT (CM)'),
+        'BUNDLE': find_key(first_row, 'BUNDLE (Y/N)') or raise_missing_column('BUNDLE (Y/N)'),
+        'BUNDLE2': find_key(first_row, 'BUNDLE NO.2') or raise_missing_column('BUNDLE NO.2'),
+        'BUNDLE3': find_key(first_row, 'BUNDLE NO.3') or raise_missing_column('BUNDLE NO.3'),
+        'BUNDLE4': find_key(first_row, 'BUNDLE NO.4') or raise_missing_column('BUNDLE NO.4'),
+        'COMMODITY': find_key(first_row, 'COMMODITY DETAIL') or raise_missing_column('COMMODITY DETAIL'),
+    }
 
     # Convert DataFrame to dictionary format
     for index, row in df.iterrows():
         row = row.to_dict()
         sequence = ''
         # Create the dischargeListTransaction element
-        if find_key(row, 'SEQ'):
-            if format_value(row[find_key(row, 'SEQ')]):
-                seq = int(row[find_key(row, 'SEQ')])
-                format_seq = format(seq, '04d')
-                sequence = date_time_str + format_seq
+
+        seq = int(row[key_map['SEQ']])
+        format_seq = format(seq, '04d')
+        sequence = date_time_str + format_seq
 
         tran_dict = {
             "edi:msgClass": "DISCHLIST",
@@ -55,10 +79,9 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
         ET.SubElement(dischargeListTransaction, "edi:Interchange", attrib=inter_dict)
 
         # Create the billOfLading element
-        bl_key = find_key(row, 'BL')
-        if pd.notna(row[bl_key]):
+        if pd.notna(row[key_map['BL']]):
             ET.SubElement(dischargeListTransaction, 'edi:ediBillOfLading',
-                                         attrib={'edi:blNbr': str(row[bl_key])})
+                                         attrib={'edi:blNbr': row[key_map['BL']]})
 
         # Create the InboundVesselVisit element
         vsl_dict = {
@@ -73,138 +96,109 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
         ET.SubElement(dischargeListTransaction, "edi:category").text = "IMPRT"
 
         # Create the FreightKind element
-        freight_kind = "FCL" if row[find_key(row, 'FREIGHT KIND (F/E)')] == "F"  or row[find_key(row, 'FREIGHT KIND (F/E)')] == "FCL" else "MTY"
+        freight_kind = "FCL" if row[key_map['FREIGHT_KIND']].strip().upper() == "F"  or row[key_map['FREIGHT_KIND']].strip().upper() == "FCL" else "MTY"
         ET.SubElement(dischargeListTransaction, "edi:freightKind").text = freight_kind
 
         # Create the ContainerID element
-        ET.SubElement(dischargeListTransaction, "edi:containerId").text = format_value(row[find_key(row, 'CNTR_NO')])
+        ET.SubElement(dischargeListTransaction, "edi:containerId").text = row[key_map['CNTR_NO']]
 
         # Create the ContainerType element
-        ET.SubElement(dischargeListTransaction, "edi:containerType").text = format_value(row[find_key(row, 'SIZE')])
+        ET.SubElement(dischargeListTransaction, "edi:containerType").text = row[key_map['SIZE']]
 
         # Create the Cell position element
-        if pd.notna(row[find_key(row, 'CELL')]):
-            ET.SubElement(dischargeListTransaction, "edi:stowageCellPosition").text = format_value(
-                row[find_key(row, 'CELL')])
+        if pd.notna(row[key_map['CELL']]):
+            ET.SubElement(dischargeListTransaction, "edi:stowageCellPosition").text = row[key_map['CELL']]
 
         # Create the ContainerOperator element
-
         ET.SubElement(dischargeListTransaction, "edi:containerOperator",
-                      attrib={"edi:operator": format_value(row[find_key(row, 'OPS (3 LETTERS)')])})
+                      attrib={"edi:operator": row[key_map['OPS']]})
 
 
         # Create the ImportRouting element
         import_routing = ET.SubElement(dischargeListTransaction, "edi:importRouting")
-        if pd.notna(row[find_key(row, 'POL (5 LETTERS)')]):
+        if pd.notna(row[key_map['POL']]):
             ET.SubElement(import_routing, "edi:loadPort",
-                          attrib={"edi:portId": format_value(row[find_key(row, 'POL (5 LETTERS)')])})
+                          attrib={"edi:portId": row[key_map['POL']]})
 
-        if pd.notna(row[find_key(row, 'POD (5 LETTERS)')]):
+        if pd.notna(row[key_map['POD']]):
             ET.SubElement(import_routing, "edi:dischargePort1",
-                          attrib={"edi:portId": format_value(row[find_key(row, 'POD (5 LETTERS)')])})
+                          attrib={"edi:portId": row[key_map['POD']]})
 
         # Check if FPOD not null then add in ImportRouting
-        fpod_key = find_key(row, 'FPOD (IF ANY)')
-        if pd.notna(row[fpod_key]):
+        if pd.notna(row[key_map['FPOD']]):
             ET.SubElement(import_routing, "edi:dischargePort2",
-                          attrib={"edi:portId": format_value(row[fpod_key])})
+                          attrib={"edi:portId": row[key_map['FPOD']]})
 
         # Create the Weight element
-        if pd.notna(row[find_key(row, 'Weight (kg)')]):
+        if pd.notna(row[key_map['WEIGHT']]):
             ET.SubElement(dischargeListTransaction, "edi:grossWeight",
                           attrib={"edi:wtUnit": "KG",
-                                  "edi:wtValue": format_value(row[find_key(row, 'Weight (kg)')])})
+                                  "edi:wtValue": row[key_map['WEIGHT']]})
 
         # Create the VGM element
-        if pd.notna(row[find_key(row, 'VGM(kg)')]):
+        if pd.notna(row[key_map['VGM']]):
             ET.SubElement(dischargeListTransaction, "edi:verifiedGrossMass",
-                          attrib={"edi:verifiedGrossWt": format_value(row[find_key(row, 'VGM(kg)')]),
+                          attrib={"edi:verifiedGrossWt": row[key_map['VGM']],
                                   "edi:verifiedGrossWtUnit": "KG"})
 
         # Create the OOG element
-        if row[find_key(row, 'OOG')] == "Y":
+        if row[key_map['OOG']] == "Y":
             ET.SubElement(dischargeListTransaction, "edi:oogDimensions", attrib={
                 "edi:leftUnit": "CM",
-                "edi:left": format_value(row[find_key(row, 'OVER LEFT (CM)')]),
+                "edi:left": row[key_map['OVER LEFT']],
                 "edi:topUnit": "CM",
-                "edi:top": format_value(row[find_key(row, 'OVER HEIGHT (CM)')]),
+                "edi:top": row[key_map['OVER_HEIGHT']],
                 "edi:rightUnit": "CM",
-                "edi:right": format_value(row[find_key(row, 'OVER RIGHT (CM)')])
+                "edi:right": row[key_map['OVER_RIGHT']]
             })
 
         # Create the RF element
-        if row[find_key(row, 'RF (Y/N)')] == "Y":
+        if row[key_map['RF']] == "Y":
             ET.SubElement(dischargeListTransaction, "edi:temperature", attrib={
                 "edi:preferredTemperatureUnit": "C",
-                "edi:preferredTemperature": format_value(row[find_key(row, 'TEMP. (\'C)')])
+                "edi:preferredTemperature": row[key_map['TEMP']]
             })
 
-        # Create SealNbr1 element
+        # Create SealNbr element
         for i in range(1, 5):
-            if find_key(row, f"SEAL{i}"):
-                seal_key = find_key(row, f"SEAL{i}")
-                if pd.notna(row[seal_key]):
-                    ET.SubElement(dischargeListTransaction, f"edi:sealNbr{i}").text = format_value(row[seal_key])
-
-        # if  find_key(row, 'SEAL1'):s
-        #     seal_key1 = find_key(row, 'SEAL1')
-        #     if pd.notna(row[seal_key1]):
-        #         ET.SubElement(dischargeListTransaction, "edi:sealNbr1").text = format_value(row[seal_key1])
-        # if  find_key(row, 'SEAL2'):
-        #     seal_key2 = find_key(row, 'SEAL2')
-        #     if pd.notna(row[seal_key2]):
-        #         ET.SubElement(dischargeListTransaction, "edi:sealNbr2").text = format_value(row[seal_key2])
-        # if  find_key(row, 'SEAL3'):
-        #     seal_key3 = find_key(row, 'SEAL3')
-        #     if pd.notna(row[seal_key3]):
-        #         ET.SubElement(dischargeListTransaction, "edi:sealNbr3").text = format_value(row[seal_key3])
-        # if  find_key(row, 'SEAL4'):
-        #     seal_key4 = find_key(row, 'SEAL4')
-        #     if pd.notna(row[seal_key4]):
-        #         ET.SubElement(dischargeListTransaction, "edi:sealNbr4").text = format_value(row[seal_key4])
+            if pd.notna(row[key_map[f"SEAL{i}"]]):
+                ET.SubElement(dischargeListTransaction, f"edi:sealNbr{i}").text = row[key_map[f"SEAL{i}"]]
 
         # Create the Commodity element
-        commo_key = find_key(row, 'COMMODITY DETAIL')
-        if pd.notna(row[commo_key]):
+        if pd.notna(row[key_map['COMMODITY']]):
             commo_field = ET.SubElement(dischargeListTransaction, "edi:ediCommodity", attrib= {
-                "edi:commodityDescription": format_value(row[commo_key])
+                "edi:commodityDescription": row[key_map['COMMODITY']]
             })
-            # ET.SubElement(flex_field, "edi:commodityDescription").text = format_value(row[commo_key])
 
         # Create the Ventilation element
-        if find_key(row, 'VENTILATION (VALUE)'):
-            ventilation_key = find_key(row, 'VENTILATION (VALUE)')
-            if pd.notna(row[ventilation_key]):
-                edi_commodity = ET.SubElement(dischargeListTransaction, 'edi:ediCommodity')
-                if pd.notna(row[ventilation_key]):
-                    ET.SubElement(edi_commodity, "commodityVentSettings", attrib={
-                        "edi:unit": format_value(row[ventilation_key]),
-                        "edi:value": format_value(row[find_key(row, 'VENTILATION (UNIT)')]),
-                    })
+        if pd.notna(row[key_map['VENT_UNIT']]):
+            edi_commodity = ET.SubElement(dischargeListTransaction, 'edi:ediCommodity')
+            if pd.notna(row[key_map['VENT_UNIT']]):
+                ET.SubElement(edi_commodity, "commodityVentSettings", attrib={
+                    "edi:unit": row[key_map['VENT_UNIT']],
+                    "edi:value": row[key_map['VENT_VALUE']],
+                })
 
         # Create the Dangerous Goods element
-        if row[find_key(row, 'DG (Y/N)')] == "Y":
+        if row[key_map['DG']] == "Y":
             ET.SubElement(dischargeListTransaction, "edi:ediHazard", attrib={
-                "edi:imdgClass": str(int(row[find_key(row, 'IMO')])),
-                "edi:unNbr": str(int(row[find_key(row, 'UNNO')]))
+                "edi:imdgClass": row[key_map['IMO']],
+                "edi:unNbr": row[key_map['UNNO']]
             })
 
         # Create the Bundle element
-        if row[find_key(row, 'BUNDLE (Y/N)')] == "Y":
+        if row[key_map['BUNDLE']] == "Y":
             for i in range(2, 5):
-                bundle_key = find_key(row, f'BUNDLE NO.{i}')
-                if pd.notna(row[bundle_key]):
+                if pd.notna(row[key_map[f'BUNDLE{i}']]):
                     ET.SubElement(dischargeListTransaction, "edi:ediAttachedEquipment", attrib={
                         "edi:attachedEquipmentClass": "CONTAINER",
-                        "edi:attachedEquipmentNbr": format_value(row[bundle_key]),
-                        "edi:attachedEquipmentType": format_value(row[find_key(row, 'SIZE')])
+                        "edi:attachedEquipmentNbr": row[key_map[f'BUNDLE{i}']],
+                        "edi:attachedEquipmentType": row[key_map['SIZE  ']]
                     })
 
-        if find_key(row, "STOW CODE"):
-            stow_key = find_key(row, "STOW CODE")
-            if pd.notna(row[stow_key]):
-                stow_code_element = ET.SubElement(dischargeListTransaction, "edi:containerSpecialStowInstructions")
-                ET.SubElement(stow_code_element, "edi:id").text = format_value(row[stow_key])
+        if pd.notna(row[key_map['STOW_CODE']]):
+            stow_code_element = ET.SubElement(dischargeListTransaction, "edi:containerSpecialStowInstructions")
+            ET.SubElement(stow_code_element, "edi:id").text = row[key_map['STOW_CODE']]
 
     # Clean None values
     clean_none_values(output_root)
