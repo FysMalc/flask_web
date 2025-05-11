@@ -54,151 +54,154 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
 
     # Convert DataFrame to dictionary format
     for index, row in df.iterrows():
-        row = row.to_dict()
-        sequence = ''
-        # Create the dischargeListTransaction element
+        try:
+            row = row.to_dict()
+            sequence = ''
+            # Create the dischargeListTransaction element
 
-        seq = int(row[key_map['SEQ']])
-        format_seq = format(seq, '04d')
-        sequence = date_time_str + format_seq
+            seq = int(row[key_map['SEQ']])
+            format_seq = format(seq, '04d')
+            sequence = date_time_str + format_seq
 
-        tran_dict = {
-            "edi:msgClass": "DISCHLIST",
-            "edi:msgTypeId": "COPRAR",
-            "edi:msgFunction": "O",
-            "edi:msgReferenceNbr": ""
-        }
-        dischargeListTransaction = ET.SubElement(output_root, "edi:dischlistTransaction", attrib=tran_dict)
+            tran_dict = {
+                "edi:msgClass": "DISCHLIST",
+                "edi:msgTypeId": "COPRAR",
+                "edi:msgFunction": "O",
+                "edi:msgReferenceNbr": ""
+            }
+            dischargeListTransaction = ET.SubElement(output_root, "edi:dischlistTransaction", attrib=tran_dict)
 
-        # Create the Interchange element
-        inter_dict = {
-            "edi:Date": now.strftime('%Y-%m-%d'),
-            "edi:Time": now.strftime('%H:%M:%S'),
-            "edi:InterchangeNumber": sequence
-        }
-        ET.SubElement(dischargeListTransaction, "edi:Interchange", attrib=inter_dict)
+            # Create the Interchange element
+            inter_dict = {
+                "edi:Date": now.strftime('%Y-%m-%d'),
+                "edi:Time": now.strftime('%H:%M:%S'),
+                "edi:InterchangeNumber": sequence
+            }
+            ET.SubElement(dischargeListTransaction, "edi:Interchange", attrib=inter_dict)
 
-        # Create the billOfLading element
-        if pd.notna(row[key_map['BL']]):
-            ET.SubElement(dischargeListTransaction, 'edi:ediBillOfLading',
-                                         attrib={'edi:blNbr': row[key_map['BL']]})
+            # Create the billOfLading element
+            if pd.notna(row[key_map['BL']]):
+                ET.SubElement(dischargeListTransaction, 'edi:ediBillOfLading',
+                                             attrib={'edi:blNbr': row[key_map['BL']]})
 
-        # Create the InboundVesselVisit element
-        vsl_dict = {
-            "edi:vesselId": VslID,
-            "edi:vesselIdConvention": "VISITREF"
-        }
-        ediInboundVesselVisit = ET.SubElement(dischargeListTransaction, "edi:ediInboundVesselVisit", attrib=vsl_dict)
-        shippingLine = ET.SubElement(ediInboundVesselVisit, "edi:shippingLine",
-                                     attrib={"edi:shippingLineCode": opr})
+            # Create the InboundVesselVisit element
+            vsl_dict = {
+                "edi:vesselId": VslID,
+                "edi:vesselIdConvention": "VISITREF"
+            }
+            ediInboundVesselVisit = ET.SubElement(dischargeListTransaction, "edi:ediInboundVesselVisit", attrib=vsl_dict)
+            shippingLine = ET.SubElement(ediInboundVesselVisit, "edi:shippingLine",
+                                         attrib={"edi:shippingLineCode": opr})
 
-        # Create the Category element
-        ET.SubElement(dischargeListTransaction, "edi:category").text = "IMPRT"
+            # Create the Category element
+            ET.SubElement(dischargeListTransaction, "edi:category").text = "IMPRT"
 
-        # Create the FreightKind element
-        freight_kind = "FCL" if row[key_map['FREIGHT_KIND']].strip().upper() == "F"  or row[key_map['FREIGHT_KIND']].strip().upper() == "FCL" else "MTY"
-        ET.SubElement(dischargeListTransaction, "edi:freightKind").text = freight_kind
+            # Create the FreightKind element
+            freight_kind = "FCL" if row[key_map['FREIGHT_KIND']].strip().upper() == "F"  or row[key_map['FREIGHT_KIND']].strip().upper() == "FCL" else "MTY"
+            ET.SubElement(dischargeListTransaction, "edi:freightKind").text = freight_kind
 
-        # Create the ContainerID element
-        ET.SubElement(dischargeListTransaction, "edi:containerId").text = row[key_map['CNTR_NO']]
+            # Create the ContainerID element
+            ET.SubElement(dischargeListTransaction, "edi:containerId").text = row[key_map['CNTR_NO']]
 
-        # Create the ContainerType element
-        ET.SubElement(dischargeListTransaction, "edi:containerType").text = row[key_map['SIZE']]
+            # Create the ContainerType element
+            ET.SubElement(dischargeListTransaction, "edi:containerType").text = row[key_map['SIZE']]
 
-        # Create the Cell position element
-        if pd.notna(row[key_map['CELL']]):
-            ET.SubElement(dischargeListTransaction, "edi:stowageCellPosition").text = row[key_map['CELL']]
+            # Create the Cell position element
+            if pd.notna(row[key_map['CELL']]):
+                ET.SubElement(dischargeListTransaction, "edi:stowageCellPosition").text = row[key_map['CELL']]
 
-        # Create the ContainerOperator element
-        ET.SubElement(dischargeListTransaction, "edi:containerOperator",
-                      attrib={"edi:operator": row[key_map['OPS']]})
+            # Create the ContainerOperator element
+            ET.SubElement(dischargeListTransaction, "edi:containerOperator",
+                          attrib={"edi:operator": row[key_map['OPS']]})
 
 
-        # Create the ImportRouting element
-        import_routing = ET.SubElement(dischargeListTransaction, "edi:importRouting")
-        if pd.notna(row[key_map['POL']]):
-            ET.SubElement(import_routing, "edi:loadPort",
-                          attrib={"edi:portId": row[key_map['POL']]})
+            # Create the ImportRouting element
+            import_routing = ET.SubElement(dischargeListTransaction, "edi:importRouting")
+            if pd.notna(row[key_map['POL']]):
+                ET.SubElement(import_routing, "edi:loadPort",
+                              attrib={"edi:portId": row[key_map['POL']]})
 
-        if pd.notna(row[key_map['POD']]):
-            ET.SubElement(import_routing, "edi:dischargePort1",
-                          attrib={"edi:portId": row[key_map['POD']]})
+            if pd.notna(row[key_map['POD']]):
+                ET.SubElement(import_routing, "edi:dischargePort1",
+                              attrib={"edi:portId": row[key_map['POD']]})
 
-        # Check if FPOD not null then add in ImportRouting
-        if pd.notna(row[key_map['FPOD']]):
-            ET.SubElement(import_routing, "edi:dischargePort2",
-                          attrib={"edi:portId": row[key_map['FPOD']]})
+            # Check if FPOD not null then add in ImportRouting
+            if pd.notna(row[key_map['FPOD']]):
+                ET.SubElement(import_routing, "edi:dischargePort2",
+                              attrib={"edi:portId": row[key_map['FPOD']]})
 
-        # Create the Weight element
-        if pd.notna(row[key_map['WEIGHT']]):
-            ET.SubElement(dischargeListTransaction, "edi:grossWeight",
-                          attrib={"edi:wtUnit": "KG",
-                                  "edi:wtValue": row[key_map['WEIGHT']]})
+            # Create the Weight element
+            if pd.notna(row[key_map['WEIGHT']]):
+                ET.SubElement(dischargeListTransaction, "edi:grossWeight",
+                              attrib={"edi:wtUnit": "KG",
+                                      "edi:wtValue": row[key_map['WEIGHT']]})
 
-        # Create the VGM element
-        if pd.notna(row[key_map['VGM']]):
-            ET.SubElement(dischargeListTransaction, "edi:verifiedGrossMass",
-                          attrib={"edi:verifiedGrossWt": row[key_map['VGM']],
-                                  "edi:verifiedGrossWtUnit": "KG"})
+            # Create the VGM element
+            if pd.notna(row[key_map['VGM']]):
+                ET.SubElement(dischargeListTransaction, "edi:verifiedGrossMass",
+                              attrib={"edi:verifiedGrossWt": row[key_map['VGM']],
+                                      "edi:verifiedGrossWtUnit": "KG"})
 
-        # Create the OOG element
-        if row[key_map['OOG']] == "Y":
-            ET.SubElement(dischargeListTransaction, "edi:oogDimensions", attrib={
-                "edi:leftUnit": "CM",
-                "edi:left": row[key_map['OVER LEFT']],
-                "edi:topUnit": "CM",
-                "edi:top": row[key_map['OVER_HEIGHT']],
-                "edi:rightUnit": "CM",
-                "edi:right": row[key_map['OVER_RIGHT']]
-            })
-
-        # Create the RF element
-        if row[key_map['RF']] == "Y":
-            ET.SubElement(dischargeListTransaction, "edi:temperature", attrib={
-                "edi:preferredTemperatureUnit": "C",
-                "edi:preferredTemperature": row[key_map['TEMP']]
-            })
-
-        # Create SealNbr element
-        for i in range(1, 5):
-            if pd.notna(row[key_map[f"SEAL{i}"]]):
-                ET.SubElement(dischargeListTransaction, f"edi:sealNbr{i}").text = row[key_map[f"SEAL{i}"]]
-
-        # Create the Commodity element
-        if pd.notna(row[key_map['COMMODITY']]):
-            commo_field = ET.SubElement(dischargeListTransaction, "edi:ediCommodity", attrib= {
-                "edi:commodityDescription": row[key_map['COMMODITY']]
-            })
-
-        # Create the Ventilation element
-        if pd.notna(row[key_map['VENT_UNIT']]):
-            edi_commodity = ET.SubElement(dischargeListTransaction, 'edi:ediCommodity')
-            if pd.notna(row[key_map['VENT_UNIT']]):
-                ET.SubElement(edi_commodity, "commodityVentSettings", attrib={
-                    "edi:unit": row[key_map['VENT_UNIT']],
-                    "edi:value": row[key_map['VENT_VALUE']],
+            # Create the OOG element
+            if row[key_map['OOG']] == "Y":
+                ET.SubElement(dischargeListTransaction, "edi:oogDimensions", attrib={
+                    "edi:leftUnit": "CM",
+                    "edi:left": row[key_map['OVER LEFT']],
+                    "edi:topUnit": "CM",
+                    "edi:top": row[key_map['OVER_HEIGHT']],
+                    "edi:rightUnit": "CM",
+                    "edi:right": row[key_map['OVER_RIGHT']]
                 })
 
-        # Create the Dangerous Goods element
-        if row[key_map['DG']] == "Y":
-            ET.SubElement(dischargeListTransaction, "edi:ediHazard", attrib={
-                "edi:imdgClass": row[key_map['IMO']],
-                "edi:unNbr": row[key_map['UNNO']]
-            })
+            # Create the RF element
+            if row[key_map['RF']] == "Y":
+                ET.SubElement(dischargeListTransaction, "edi:temperature", attrib={
+                    "edi:preferredTemperatureUnit": "C",
+                    "edi:preferredTemperature": row[key_map['TEMP']]
+                })
 
-        # Create the Bundle element
-        if row[key_map['BUNDLE']] == "Y":
-            for i in range(2, 5):
-                if pd.notna(row[key_map[f'BUNDLE{i}']]):
-                    ET.SubElement(dischargeListTransaction, "edi:ediAttachedEquipment", attrib={
-                        "edi:attachedEquipmentClass": "CONTAINER",
-                        "edi:attachedEquipmentNbr": row[key_map[f'BUNDLE{i}']],
-                        "edi:attachedEquipmentType": row[key_map['SIZE  ']]
+            # Create SealNbr element
+            for i in range(1, 5):
+                if pd.notna(row[key_map[f"SEAL{i}"]]):
+                    ET.SubElement(dischargeListTransaction, f"edi:sealNbr{i}").text = row[key_map[f"SEAL{i}"]]
+
+            # Create the Commodity element
+            if pd.notna(row[key_map['COMMODITY']]):
+                commo_field = ET.SubElement(dischargeListTransaction, "edi:ediCommodity", attrib= {
+                    "edi:commodityDescription": row[key_map['COMMODITY']]
+                })
+
+            # Create the Ventilation element
+            if pd.notna(row[key_map['VENT_UNIT']]):
+                edi_commodity = ET.SubElement(dischargeListTransaction, 'edi:ediCommodity')
+                if pd.notna(row[key_map['VENT_UNIT']]):
+                    ET.SubElement(edi_commodity, "commodityVentSettings", attrib={
+                        "edi:unit": row[key_map['VENT_UNIT']],
+                        "edi:value": row[key_map['VENT_VALUE']],
                     })
 
-        if pd.notna(row[key_map['STOW_CODE']]):
-            stow_code_element = ET.SubElement(dischargeListTransaction, "edi:containerSpecialStowInstructions")
-            ET.SubElement(stow_code_element, "edi:id").text = row[key_map['STOW_CODE']]
+            # Create the Dangerous Goods element
+            if row[key_map['DG']] == "Y":
+                ET.SubElement(dischargeListTransaction, "edi:ediHazard", attrib={
+                    "edi:imdgClass": row[key_map['IMO']],
+                    "edi:unNbr": row[key_map['UNNO']]
+                })
+
+            # Create the Bundle element
+            if row[key_map['BUNDLE']] == "Y":
+                for i in range(2, 5):
+                    if pd.notna(row[key_map[f'BUNDLE{i}']]):
+                        ET.SubElement(dischargeListTransaction, "edi:ediAttachedEquipment", attrib={
+                            "edi:attachedEquipmentClass": "CONTAINER",
+                            "edi:attachedEquipmentNbr": row[key_map[f'BUNDLE{i}']],
+                            "edi:attachedEquipmentType": row[key_map['SIZE  ']]
+                        })
+
+            if pd.notna(row[key_map['STOW_CODE']]):
+                stow_code_element = ET.SubElement(dischargeListTransaction, "edi:containerSpecialStowInstructions")
+                ET.SubElement(stow_code_element, "edi:id").text = row[key_map['STOW_CODE']]
+        except Exception as e:
+            raise ValueError(f"Error processing row {index + 1}: {str(e)}")
 
     # Clean None values
     clean_none_values(output_root)

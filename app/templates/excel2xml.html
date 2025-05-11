@@ -23,7 +23,6 @@
             </div>
 
         <div class="space-y-6">
-
             <!-- File Upload Section -->
             <div class="bg-gray-50 rounded-lg p-6 border-2 border-dashed border-gray-300">
                 <form action="{{ url_for('main.convert2xml') }}"
@@ -195,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
         errorMessage.classList.remove('hidden');
         setTimeout(() => {
             errorMessage.classList.add('hidden');
-        }, 5000);
+        }, 20000);
     }
 });
 </script>
