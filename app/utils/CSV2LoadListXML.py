@@ -161,10 +161,14 @@ def generate_edi_from_load(input_file, output_file, opr, VslID):
                     if pd.notna(row[seal_key]):
                         ET.SubElement(loadListTransaction, f"edi:sealNbr{i}").text = row[seal_key].strip()
 
+            commo_dict = {}
             # Create the Commodity element
             if pd.notna(row[key_map['COMMODITY']]):
-                flex_field = ET.SubElement(loadListTransaction, "edi:ediCommodity")
-                ET.SubElement(flex_field, "edi:commodityDescription").text = row[key_map['COMMODITY']].strip()
+                commo_dict["edi:commodityCode"] = row[key_map['COMMODITY']].strip()
+                commo_dict["edi:commodityDescription"] = row[key_map['COMMODITY']].strip()
+
+            if commo_dict:
+                ET.SubElement(loadListTransaction, "edi:ediCommodity", attrib=commo_dict)
 
             # Create the Dangerous Goods element
             if row[key_map['DG']] == "Y":

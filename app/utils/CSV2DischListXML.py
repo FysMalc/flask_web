@@ -50,6 +50,8 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
         'BUNDLE3': find_key(first_row, 'BUNDLE NO.3') or raise_missing_column('BUNDLE NO.3'),
         'BUNDLE4': find_key(first_row, 'BUNDLE NO.4') or raise_missing_column('BUNDLE NO.4'),
         'COMMODITY': find_key(first_row, 'COMMODITY DETAIL') or raise_missing_column('COMMODITY DETAIL'),
+        'SHIPPER': find_key(first_row, 'SHIPPER') or raise_missing_column('SHIPPER'),
+        'CONSIGNEE': find_key(first_row, 'CONSIGNEE') or raise_missing_column('CONSIGNEE'),
     }
 
     # Convert DataFrame to dictionary format
@@ -166,15 +168,34 @@ def generate_edi_from_discharge(input_file, output_file, opr, VslID):
                     ET.SubElement(dischargeListTransaction, f"edi:sealNbr{i}").text = row[key_map[f"SEAL{i}"]]
 
             # Create the Commodity element
-            if pd.notna(row[key_map['COMMODITY']]):
-                commo_field = ET.SubElement(dischargeListTransaction, "edi:ediCommodity", attrib= {
-                    "edi:commodityDescription": row[key_map['COMMODITY']]
-                })
+            # if pd.notna(row[key_map['COMMODITY']]):
+            #     commo_field = ET.SubElement(dischargeListTransaction, "edi:ediCommodity", attrib= {
+            #         "edi:commodityDescription": row[key_map['COMMODITY']]
+            #     })
+            commo_dict = {}
 
-            # Create the Ventilation element
-            if pd.notna(row[key_map['VENT_UNIT']]):
-                edi_commodity = ET.SubElement(dischargeListTransaction, 'edi:ediCommodity')
-                if pd.notna(row[key_map['VENT_UNIT']]):
+            # Add commodity description if available
+            if pd.notna(row[key_map['COMMODITY']]):
+                commo_dict["edi:commodityCode"] = row[key_map['COMMODITY']].strip()
+                commo_dict["edi:commodityDescription"] = row[key_map['COMMODITY']].strip()
+
+            # Add shipper if available
+            if pd.notna(row[key_map['SHIPPER']]):
+                commo_dict["edi:shipper"] = row[key_map['SHIPPER']]
+
+            # Add consignee if available
+            if pd.notna(row[key_map['CONSIGNEE']]):
+                commo_dict["edi:consignee"] = row[key_map['CONSIGNEE']]
+
+            # Check if we need commodity element (for attributes or ventilation)
+            has_ventilation = pd.notna(row[key_map['VENT_UNIT']]) and pd.notna(row[key_map['VENT_VALUE']])
+
+            # Create commodity element if we have attributes or ventilation data
+            if commo_dict or has_ventilation:
+                edi_commodity = ET.SubElement(dischargeListTransaction, "edi:ediCommodity", attrib=commo_dict)
+
+                # Add ventilation settings if available
+                if has_ventilation:
                     ET.SubElement(edi_commodity, "commodityVentSettings", attrib={
                         "edi:unit": row[key_map['VENT_UNIT']],
                         "edi:value": row[key_map['VENT_VALUE']],
